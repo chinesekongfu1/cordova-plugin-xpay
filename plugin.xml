@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="cordova-plugin-xpay" version="1.6.4">
+  <name>cordova-plugin-xpay</name>
+
+  <preference name="ALIAPPID"/>
+  <preference name="WECHATAPPID"/>
+  <js-module name="xpay" src="www/cordova-plugin-xpay.js">
+    <clobbers target="xpay"/>
+  </js-module>
+  <platform name="android">
+    <hook type="after_plugin_add" src="scripts/android-install.js" />
+    <hook type="after_plugin_install" src="scripts/android-install.js" />
+    <hook type="before_plugin_rm" src="scripts/android-install.js" />
+    <hook type="before_plugin_uninstall" src="scripts/android-install.js" />
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="Xpay">
+        <param name="android-package" value="daihere.cordova.plugin.Xpay"/>
+      </feature>
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/*">
+      <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+      <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    </config-file>
+
+    <config-file target="AndroidManifest.xml" parent="/manifest/application">
+      <activity
+        android:name=".wxapi.WXPayEntryActivity"
+        android:exported="true"
+        android:launchMode="singleTop">
+        <intent-filter>
+          <action android:name="android.intent.action.VIEW"/>
+          <category android:name="android.intent.category.DEFAULT"/>
+          <data android:scheme="Anything"/>
+        </intent-filter>
+      </activity>
+    </config-file>
+    <!-- plugin source code -->
+    <source-file src="src/android/Xpay.java" target-dir="src/daihere/cordova/plugin"/>
+    <source-file src="src/android/PayResult.java" target-dir="src/daihere/cordova/plugin"/>
+
+    <!-- Wechat libs -->
+    <source-file src="src/android/libs/wechatSDK.jar" target-dir="libs"/>
+
+    <!-- Alipay libs -->
+    <source-file src="src/android/libs/alipaySDK.jar" target-dir="libs"/>
+  </platform>
+
+  <!-- ios -->
+  <platform name="ios">
+    <config-file parent="/*" target="config.xml">
+      <feature name="Xpay">
+        <param name="ios-package" value="CDVXpay"/>
+        <param name="onload" value="true" />
+      </feature>
+      <preference name="WECHATAPPID" value="$WECHATAPPID" />
+      <preference name="ALIAPPID" value="$ALIAPPID" />
+    </config-file>
+
+    <config-file target="*-Info.plist" parent="CFBundleURLTypes">
+      <array>
+        <dict>
+          <key>CFBundleURLName</key>
+          <string>weixin</string>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>$WECHATAPPID</string>
+          </array>
+        </dict>
+        <dict>
+          <key>CFBundleURLName</key>
+          <string>alipay</string>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>ali$ALIAPPID</string>
+          </array>
+        </dict>
+      </array>
+    </config-file>
+
+    <!-- plugin source code -->
+    <header-file src="src/ios/CDVXpay.h"/>
+    <source-file src="src/ios/CDVXpay.m"/>
+
+    <!-- Wechat libs  -->
+    <header-file src="src/ios/libs/OpenSDK1.7.7/WXApi.h"/>
+    <header-file src="src/ios/libs/OpenSDK1.7.7/WXApiObject.h"/>
+    <source-file src="src/ios/libs/OpenSDK1.7.7/libWeChatSDK.a"  framework="true"/>
+
+    <!-- Alipay libs -->
+    <framework src="src/ios/libs/AlipaySDK.framework" custom="true" />
+    <resource-file src="src/ios/libs/AlipaySDK.bundle"/>
+
+    <!-- Other required frameworks -->
+    <framework src="libz.dylib" />
+    <framework src="libsqlite3.0.dylib" />
+    <framework src="SystemConfiguration.framework" weak="true"/>
+    <framework src="libstdc++.6.dylib" />
+    <framework src="libc++.tbd" weak="true"/>
+    <framework src="CFNetwork.framework" weak="true"/>
+    <framework src="CoreMotion.framework" weak="true"/>
+    <framework src="Security.framework" weak="true"/>
+    <framework src="CoreTelephony.framework" weak="true"/>
+  </platform>
+</plugin>
