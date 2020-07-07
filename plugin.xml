@@ -84,9 +84,9 @@
     <source-file src="src/ios/CDVXpay.m"/>
 
     <!-- Wechat libs  -->
-    <header-file src="src/ios/libs/OpenSDK1.7.7/WXApi.h"/>
-    <header-file src="src/ios/libs/OpenSDK1.7.7/WXApiObject.h"/>
-    <source-file src="src/ios/libs/OpenSDK1.7.7/libWeChatSDK.a"  framework="true"/>
+    <header-file src="src/ios/libs/OpenSDK1.8.7.1/WXApi.h"/>
+    <header-file src="src/ios/libs/OpenSDK1.8.7.1/WXApiObject.h"/>
+    <source-file src="src/ios/libs/OpenSDK1.8.7.1/libWeChatSDK.a"  framework="true"/>
 
     <!-- Alipay libs -->
     <framework src="src/ios/libs/AlipaySDK.framework" custom="true" />
